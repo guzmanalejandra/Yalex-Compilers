@@ -9,12 +9,10 @@
 # 8. Implementar reconocimiento de errores
 # 9. Si hay errores, imprimirlos
 
-from lexer import Lexer
+from yallexer import YALLexer as Lexer
+# Crear una instancia de Lexer con el archivo YALex
 
-def main():
-    filename = 'slr-1.yal'
-    lexer = Lexer(filename)
-    # Continúe con el análisis léxico del archivo utilizando la instancia de lexer
+from InfixToPost.infixtopostfix import *
+from AFN.afn import *
+from Graph.graph import graph
 
-if __name__ == '__main__':
-    main()
