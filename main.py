@@ -8,3 +8,13 @@
 # 7. Imprimir los tokens encontrados
 # 8. Implementar reconocimiento de errores
 # 9. Si hay errores, imprimirlos
+
+from lexer import Lexer
+
+def main():
+    filename = 'slr-1.yal'
+    lexer = Lexer(filename)
+    # Continúe con el análisis léxico del archivo utilizando la instancia de lexer
+
+if __name__ == '__main__':
+    main()
