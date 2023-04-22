@@ -118,37 +118,33 @@ def lessThan(arrayContent,character):
     return False
 
 def infixaPostfix(exp):
-  output = []
-  operators = []
-  for i in exp:
-    #print(i)
-    #print(operators)
-    if validChar(i):
-      output.append(i)
-    else:
-      if i in operatorsVal:
-        while( (not isEmpty(operators)) and lessThan(operators,i)):
-          output.append(operators.pop())
-        operators.append(i)
-      elif i == "(": 
-        operators.append(i)
-      elif i == ")":
-        quantity = operators.count("(")
-        flag = quantity
-        while(not isEmpty(operators) and "(" in operators and quantity == flag):
-          if ("(" == lastElement(operators)):
-            operators.pop()
-            flag = flag - 1
-          else: 
-            output.append(operators.pop())
-      else:
-        #print(operators)
-        #print(output)
-        #print(i)
-        return "Error"     
-  while( (not isEmpty(operators))):
-    output.append(operators.pop())
-  return output
+    stack = []
+    output = []
+    for i in exp:
+        if validChar(i):
+            output.append(i)
+        elif i == '(':
+            stack.append(i)
+        elif i == ')':
+            while len(stack) > 0 and stack[-1] != '(':
+                output.append(stack.pop())
+            if len(stack) == 0:
+                # parentesis sin cerrar
+                return "Error"
+            stack.pop() # eliminar el '(' de la pila
+        else:
+            while len(stack) > 0 and stack[-1] != '(' and lessThan(stack[-1], i):
+                output.append(stack.pop())
+            stack.append(i)
+
+    # vaciar la pila restante
+    while len(stack) > 0:
+        if stack[-1] == '(':
+            # parentesis sin cerrar
+            return "Error"
+        output.append(stack.pop())
+
+    return output
 
 def expresionParaArbol(expresion):
   nuevaexpresion = ""
