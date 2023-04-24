@@ -39,8 +39,12 @@ def ThompsonAlgorithm(postfixexp):
         if i == "|":
             #Si se encuentra un operador OR, se sacan dos autómatas de la pila
             #y se crea un nuevo autómata que representa la unión de ambos
+            if len(nfaStack) < 2:
+                print("no hay suficientes automatas en la pila")
+                print("prueba", len(nfaStack))
             temp = NFA(cont, cont+1, epsilon)
             second = nfaStack.pop()
+            #print(second, "yo si sirvo careculo")
             first = nfaStack.pop()
             #print("Se realiza la operación OR (|) entre el automata con el dict",first.getDict(), "y el automata con dict ", second.getDict())
             temp.unionOperator(first,second)

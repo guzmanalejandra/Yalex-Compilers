@@ -1,0 +1,23 @@
+digraph Automata {
+	rankdir=LR
+	1 [label=1]
+	2 [label=2]
+	7 [label=7]
+	3 [label=3]
+	5 [label=5]
+	4 [label=4]
+	6 [label=6]
+	8 [label=8]
+	10 [label=10 shape=doublecircle]
+	1 -> 2 [label=a]
+	7 -> 3 [label="ε"]
+	7 -> 5 [label="ε"]
+	3 -> 4 [label=a]
+	5 -> 6 [label=b]
+	4 -> 8 [label="ε"]
+	6 -> 8 [label="ε"]
+	8 -> 10 [label="ε"]
+	8 -> 7 [label="ε"]
+	2 -> 7 [label="ε"]
+	2 -> 10 [label="ε"]
+}

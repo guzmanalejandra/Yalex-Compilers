@@ -1,8 +1,13 @@
-EPSILON = 'ε'
+#definir el simbolo epsilon
+EPSILON = 'ε' 
+#Definir la precedencia de operadores 
 precedence = {'(':0, '|':1, '_':2,'*':3,'?':3, '+':3} 
+#Definir la lista de operadores
 operatorsVal = ["*","_","|","?","+"]
+#Definir la lista de argumentos que no son parte del alfabeto
 notAlphabet = ["*","_","|","(",")","?"]
 
+#Convertir ? y + operadores a | y *
 def convertOperators(expresion):
   newExpresion=""
   for i in range(0,len(expresion)):
@@ -11,6 +16,7 @@ def convertOperators(expresion):
         newExpresion = newExpresion +"|ε"
       else:
         if expresion[i-1] == ")":
+              # Encontrar la operacion dentro de los parentesis que el operador * se aplica
           count = 1
           reverse = i-2
           temp = ")"
@@ -24,18 +30,21 @@ def convertOperators(expresion):
             else:
               temp = temp + expresion[reverse]
             reverse = reverse - 1
+            # Le aplica reversa a la expresion dentro de los parentesis y agrega el * operador
           tempReverse = temp [::-1]
+          
           newExpresion = newExpresion + tempReverse + "*"
         else: 
           newExpresion = newExpresion + expresion[i-1] + "*"
     else:
       newExpresion = newExpresion + expresion[i]
+  #si el operador ? sigue existiendo, se llama una funcion recursiva y para convertirlo
   if "?" in newExpresion:
     return convertOperators(newExpresion)
   else:
     return newExpresion
 
-
+#Chequea si la expresion es válida y tiene parentesis balanceados
 def firstExpresion(expresion):
   if "(" in expresion:
     if expresion.count("(") == expresion.count(")"):
@@ -45,6 +54,7 @@ def firstExpresion(expresion):
   else:
     return True
 
+# Valida que el cáracter es valido para el alfabeto 
 def validChar(char):
   if char.isalpha():
     return True
@@ -57,6 +67,7 @@ def validChar(char):
   else: 
     return False
 
+#Obtiene el alfabeto de la expresión
 def getAlphabet(expresion):
   alphabet = []
   for i in expresion:
@@ -65,7 +76,7 @@ def getAlphabet(expresion):
         alphabet.append(i)
   return alphabet
 
-
+# Agregue un guión bajo '_' entre caracteres y operadores para evitar la ambigüedad
 def computableExpresion(expresion):
   nuevaexpresion = ""
   for i in range(0,len(expresion)):
@@ -118,33 +129,38 @@ def lessThan(arrayContent,character):
     return False
 
 def infixaPostfix(exp):
-    stack = []
-    output = []
-    for i in exp:
-        if validChar(i):
-            output.append(i)
-        elif i == '(':
-            stack.append(i)
-        elif i == ')':
-            while len(stack) > 0 and stack[-1] != '(':
-                output.append(stack.pop())
-            if len(stack) == 0:
-                # parentesis sin cerrar
-                return "Error"
-            stack.pop() # eliminar el '(' de la pila
-        else:
-            while len(stack) > 0 and stack[-1] != '(' and lessThan(stack[-1], i):
-                output.append(stack.pop())
-            stack.append(i)
+  output = []
+  operators = []
+  for i in exp:
+    #print(i)
+    #print(operators)
+    if validChar(i):
+      output.append(i)
+    else:
+      if i in operatorsVal:
+        while( (not isEmpty(operators)) and lessThan(operators,i)):
+          output.append(operators.pop())
+        operators.append(i)
+      elif i == "(": 
+        operators.append(i)
+      elif i == ")":
+        quantity = operators.count("(")
+        flag = quantity
+        while(not isEmpty(operators) and "(" in operators and quantity == flag):
+          if ("(" == lastElement(operators)):
+            operators.pop()
+            flag = flag - 1
+          else: 
+            output.append(operators.pop())
+      else:
+        #print(operators)
+        #print(output)
+        #print(i)
+        return "Error"     
+  while( (not isEmpty(operators))):
+    output.append(operators.pop())
+  return output
 
-    # vaciar la pila restante
-    while len(stack) > 0:
-        if stack[-1] == '(':
-            # parentesis sin cerrar
-            return "Error"
-        output.append(stack.pop())
-
-    return output
 
 def expresionParaArbol(expresion):
   nuevaexpresion = ""
