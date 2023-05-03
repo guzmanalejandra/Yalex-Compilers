@@ -1,0 +1,14 @@
+{intento uno, hola, si lees esto}
+
+(*intento dos, hola, si lees esto*)
+
+rule tokens = 
+    ws
+  | id        { return ID }               (* Cambie por una acción válida, que devuelva el token *)
+  | '+'       { return PLUS }
+  | '*'       { return TIMES }
+  | '('       { return LPAREN }
+  | ')'       { return RPAREN }
+
+{intento tres, hola, si lees esto}
+
